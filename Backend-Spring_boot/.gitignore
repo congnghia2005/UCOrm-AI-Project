@@ -33,3 +33,5 @@ build/
 .vscode/
 
 Backend-Spring_boot/src/main/resources/serviceAccountKey.json
+/src/main/resources/serviceAccountKey.json
+serviceAccountKey.json
