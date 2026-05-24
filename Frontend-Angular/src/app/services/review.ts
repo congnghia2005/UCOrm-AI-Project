@@ -17,17 +17,17 @@ export interface Review {
   selectedResponse?: string;
 }
 
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewService {
-  private apiUrl = 'http://localhost:8080/api/reviews'; 
+  private aiApiUrl = 'http://localhost:8080/api/reviews/generate-reply';
 
-  constructor(private http: HttpClient) { }
-
-    getReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(this.apiUrl);
+  constructor(private http: HttpClient) {}
+  generateAiReply(reviewContent: string): Observable<any> {
+    return this.http.post<any>(this.aiApiUrl, { reviewContent });
   }
+  getReviews(): Observable<Review[]> {
+  return this.http.get<Review[]>('http://localhost:8080/api/reviews');
+}
 }
