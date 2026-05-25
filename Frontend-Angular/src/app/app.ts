@@ -64,12 +64,12 @@ export class App implements OnInit {
     }
   }
 
-  // Thêm hàm này vào dưới cùng trong class App để con gọi lên khi lưu thành công
+  
   reloadReviewsList(): void {
     this.reviewService.getReviews().subscribe({
       next: (data: Review[]) => {
         this.reviews = data;
-        // Giữ lại review hiện tại đang xem để cập nhật trạng thái mới nhất trên màn hình chi tiết
+        
         if (this.selectedReview) {
           const updatedReview = data.find(r => r.id === this.selectedReview?.id);
           if (updatedReview) {
