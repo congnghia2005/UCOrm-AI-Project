@@ -1,14 +1,17 @@
 package UCTalent.UCOrm.service;
 
-import org.springframework.ai.chat.client.ChatClient;
+
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GeminiService {
 
-    private final ChatClient chatClient;
+    @Autowired
+    private GoogleGenAiChatModel chatModel;
 
-        private static final String SYSTEM_PROMPT = """
+    private static final String SYSTEM_PROMPT = """
         You are an expert Customer Relations Manager for an e-commerce platform.
         Your task is to analyze the customer's review and generate exactly 3 types of replies in Vietnamese.
         
@@ -25,18 +28,24 @@ public class GeminiService {
         - Do not invent external details not implied in the review.
         """;
 
-    public GeminiService(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
-    }
-
     public String generateReply(String reviewContent) {
         try {
-            return this.chatClient.prompt()
-                    .system(SYSTEM_PROMPT) 
-                    .user("Nội dung review của khách hàng: " + reviewContent) 
-                    .call()
-                    .content();
+            String finalPrompt = SYSTEM_PROMPT + "\nNội dung review của khách hàng: " + reviewContent;
+            String response = chatModel.call(finalPrompt);
+
+            if (response == null) {
+                return "{\"error\":\"Gemini không trả dữ liệu\"}";
+            }
+
+            response = response.trim();
+            if (response.startsWith("```")) {
+                response = response.replaceAll("(?i)^```json", "").replaceAll("(?i)^```", "").replaceAll("```$", "").trim();
+            }
+
+            return response;
+
         } catch (Exception e) {
+            e.printStackTrace();
             return "{\"error\": \"Lỗi khi gọi Gemini AI: " + e.getMessage() + "\"}";
         }
     }
