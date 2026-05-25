@@ -1,6 +1,11 @@
 package UCTalent.UCOrm.service;
 
 
+<<<<<<< HEAD
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.cloud.FirestoreClient;
+=======
+>>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
 import org.springframework.ai.google.genai.GoogleGenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,4 +54,24 @@ public class GeminiService {
             return "{\"error\": \"Lỗi khi gọi Gemini AI: " + e.getMessage() + "\"}";
         }
     }
+<<<<<<< HEAD
+
+    public boolean saveReplyToFirebase(String reviewId, String selectedReply) {
+        try {
+            Firestore db = FirestoreClient.getFirestore();
+
+            db.collection("reviews").document(reviewId)
+                    .update(
+                            "replyContent", selectedReply,
+                            "status", "Resolved"
+                    ).get();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+=======
+>>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
 }
