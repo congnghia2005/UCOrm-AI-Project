@@ -2,12 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { ReviewService, Review } from './services/review'; 
+<<<<<<< HEAD
 import { ReviewResponseComponent } from './components/review-response/review-response';
+=======
+>>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
 
 @Component({
   selector: 'app-root',
   standalone: true,
+<<<<<<< HEAD
   imports: [CommonModule, FormsModule,ReviewResponseComponent], 
+=======
+  imports: [CommonModule, FormsModule], 
+>>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
   templateUrl: './app.html', 
   styleUrl: './app.css'      
 })
@@ -63,6 +70,7 @@ export class App implements OnInit {
       this.currentReplyText = this.aiReplies[style];
     }
   }
+<<<<<<< HEAD
 
   
   reloadReviewsList(): void {
@@ -80,4 +88,6 @@ export class App implements OnInit {
       error: (err: any) => console.error('Lỗi nạp lại danh sách:', err)
     });
   }
+=======
+>>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
 }

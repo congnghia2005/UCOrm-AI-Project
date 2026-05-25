@@ -25,6 +25,10 @@ export class ReviewService {
 
   constructor(private http: HttpClient) { }
 
+<<<<<<< HEAD
+=======
+  // Hàm gọi API lấy danh sách reviews
+>>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
   getReviews(): Observable<Review[]> {
     return this.http.get<Review[]>(this.apiUrl);
   }

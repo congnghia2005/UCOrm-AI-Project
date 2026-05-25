@@ -64,7 +64,11 @@
             <p class="text-sm font-medium animate-pulse">Gemini đang phân tích sắc thái review và tạo 3 kịch bản phản hồi...</p>
           </div>
 
+<<<<<<< HEAD
           <!-- <div *ngIf="!isLoading && aiReplies">
+=======
+          <div *ngIf="!isLoading && aiReplies">
+>>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
             <div class="flex gap-2 border-b border-gray-200 pb-2 mb-4">
               <button (click)="onTabChange('standard')" 
                       class="px-3 py-1.5 text-xs font-semibold rounded-md bg-white border border-gray-200 shadow-sm text-gray-700 hover:bg-gray-50 active:bg-indigo-50">
@@ -85,6 +89,7 @@
                         class="w-full bg-white border border-gray-200 rounded-lg p-3 text-sm text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-inner outline-none resize-none"
                         placeholder="Nội dung phản hồi từ AI..."></textarea>
             </div>
+<<<<<<< HEAD
           </div> -->
 
           <app-review-response 
@@ -93,6 +98,9 @@
             [aiResponses]="aiReplies"
             (statusChanged)="reloadReviewsList()">
           </app-review-response>
+=======
+          </div>
+>>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
 
           <div *ngIf="!isLoading && !aiReplies" class="text-center py-6 text-gray-400 text-sm">
             <p>Bấm nút phía trên để Trợ lý Gemini AI gợi ý câu trả lời tự động mẫu cho bạn.</p>

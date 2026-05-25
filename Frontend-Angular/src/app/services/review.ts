@@ -28,6 +28,7 @@ export class ReviewService {
     return this.http.post<any>(this.aiApiUrl, { reviewContent });
   }
   getReviews(): Observable<Review[]> {
+<<<<<<< HEAD
   return this.http.get<Review[]>('http://localhost:8080/api/reviews');  
   }
 
@@ -35,4 +36,8 @@ export class ReviewService {
     const url = 'http://localhost:8080/api/reviews/save-reply';
     return this.http.post<any>(url, { reviewId, selectedReply });
   }
+=======
+  return this.http.get<Review[]>('http://localhost:8080/api/reviews');
+}
+>>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
 }
