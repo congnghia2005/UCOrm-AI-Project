@@ -1,0 +1,44 @@
+<div *ngIf="aiResponses" class="mt-4">
+  <div class="flex gap-2 border-b border-gray-200 pb-2 mb-4">
+    <button (click)="switchTab('standard')" 
+            [ngClass]="activeTab === 'standard' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'"
+            class="px-3 py-1.5 text-xs font-semibold rounded-md shadow-sm transition-all">
+      💼 Chuyên nghiệp (Standard)
+    </button>
+    
+    <button (click)="switchTab('friendly')" 
+            [ngClass]="activeTab === 'friendly' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'"
+            class="px-3 py-1.5 text-xs font-semibold rounded-md shadow-sm transition-all">
+      🌱 Thân thiện (Friendly)
+    </button>
+    
+    <button (click)="switchTab('escalation')" 
+            [ngClass]="activeTab === 'escalation' ? 'bg-red-600 text-white' : 'bg-red-50 text-red-700 border border-red-200 hover:bg-red-100'"
+            class="px-3 py-1.5 text-xs font-semibold rounded-md shadow-sm transition-all">
+      🚨 Khủng hoảng (Escalation)
+    </button>
+  </div>
+
+  <div class="relative bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+    <div *ngIf="activeTab === 'standard'">
+      <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ aiResponses.standard }}</p>
+      <button (click)="applyReply(aiResponses.standard)" class="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+        Approve
+      </button>
+    </div>
+
+    <div *ngIf="activeTab === 'friendly'">
+      <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ aiResponses.friendly }}</p>
+      <button (click)="applyReply(aiResponses.friendly)" class="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+        Approve
+      </button>
+    </div>
+
+    <div *ngIf="activeTab === 'escalation'">
+      <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ aiResponses.escalation }}</p>
+      <button (click)="applyReply(aiResponses.escalation)" class="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+        Approve
+      </button>
+    </div>
+  </div>
+</div>
