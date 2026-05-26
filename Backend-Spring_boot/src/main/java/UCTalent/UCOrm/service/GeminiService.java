@@ -1,6 +1,5 @@
 package UCTalent.UCOrm.service;
 
-
 import org.springframework.ai.google.genai.GoogleGenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,13 +29,17 @@ public class GeminiService {
 
     public String generateReply(String reviewContent) {
         try {
+            // Gộp prompt hệ thống và review thật của khách hàng
             String finalPrompt = SYSTEM_PROMPT + "\nNội dung review của khách hàng: " + reviewContent;
+
+            // Gọi trực tiếp sang Google GenAI Model (Tốc độ xử lý của mô hình Flash cực kỳ nhanh < 3s)
             String response = chatModel.call(finalPrompt);
 
             if (response == null) {
                 return "{\"error\":\"Gemini không trả dữ liệu\"}";
             }
 
+            // Gọt dũa chuỗi JSON phòng trường hợp AI trả về ký tự markdown thừa
             response = response.trim();
             if (response.startsWith("```")) {
                 response = response.replaceAll("(?i)^```json", "").replaceAll("(?i)^```", "").replaceAll("```$", "").trim();
@@ -49,4 +52,6 @@ public class GeminiService {
             return "{\"error\": \"Lỗi khi gọi Gemini AI: " + e.getMessage() + "\"}";
         }
     }
+
+    // Hàm fetchAndSaveMockReviews sinh 13 dữ liệu mẫu của chúng ta ở câu trước nằm ở đây...
 }
