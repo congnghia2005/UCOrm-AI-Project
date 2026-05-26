@@ -12,14 +12,12 @@ import UCTalent.UCOrm.service.ReviewService;
 
 @RestController
 @RequestMapping("/api/reviews")
-@CrossOrigin(origins = "*") // Ngăn lỗi chặn CORS khi Angular gọi sang
+@CrossOrigin(origins = "*")
 public class ReviewController {
 
-    // 🔑 ĐÃ SỬA: Chuyển cả 2 thành biến final an toàn
     private final ReviewService reviewService;
     private final GeminiService geminiService;
 
-    // 🔑 ĐÃ THÊM: Tạo Constructor để Spring tự động tiêm cả 2 dịch vụ vào khi chạy
     public ReviewController(ReviewService reviewService, GeminiService geminiService) {
         this.reviewService = reviewService;
         this.geminiService = geminiService;
@@ -43,7 +41,6 @@ public class ReviewController {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Place ID không được để trống!"));
         }
 
-        // Gọi hàm sinh dữ liệu nâng cao miễn phí trong GeminiService mượt mà
         boolean isFetched = geminiService.fetchAndSaveMockReviews(placeId);
 
         if (isFetched) {
