@@ -35,8 +35,10 @@ export class App implements OnInit {
   }
 
   selectReview(review: Review): void {
-    this.selectedReview = review;
-  }
+  this.selectedReview = review;
+  this.aiReplies = null;        
+  this.currentReplyText = '';   
+}
 
   onGenerateAiReply(reviewText: string): void {
     if (!reviewText) return;

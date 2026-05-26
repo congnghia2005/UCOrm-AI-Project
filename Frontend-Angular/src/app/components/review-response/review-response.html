@@ -23,21 +23,21 @@
     <div *ngIf="activeTab === 'standard'">
       <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ aiResponses.standard }}</p>
       <button (click)="applyReply(aiResponses.standard)" class="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
-        ✓ Áp dụng phản hồi này
+        Approve
       </button>
     </div>
 
     <div *ngIf="activeTab === 'friendly'">
       <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ aiResponses.friendly }}</p>
       <button (click)="applyReply(aiResponses.friendly)" class="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
-        ✓ Áp dụng phản hồi này
+        Approve
       </button>
     </div>
 
     <div *ngIf="activeTab === 'escalation'">
       <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{{ aiResponses.escalation }}</p>
       <button (click)="applyReply(aiResponses.escalation)" class="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
-        ✓ Áp dụng phản hồi này
+        Approve
       </button>
     </div>
   </div>

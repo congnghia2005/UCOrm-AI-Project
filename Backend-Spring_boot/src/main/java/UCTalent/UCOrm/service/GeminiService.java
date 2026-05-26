@@ -151,7 +151,7 @@ public class GeminiService {
             Collections.shuffle(mockPool);
 
             // Mỗi lần bấm Fetch sẽ bốc ra 3 review ngẫu nhiên (bạn có thể đổi thành 2, 3 hoặc 5 tùy ý)
-            int reviewsToFetch = 3;
+            int reviewsToFetch = 5;
             for (int i = 0; i < reviewsToFetch; i++) {
                 Map<String, Object> sample = mockPool.get(i);
                 // Sử dụng nanoTime kết hợp vòng lặp để sinh ID duy nhất tuyệt đối, tránh trùng khóa DB
