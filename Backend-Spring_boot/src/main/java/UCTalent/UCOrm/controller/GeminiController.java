@@ -36,7 +36,6 @@ public class GeminiController {
                 .header("Content-Type", "application/json; charset=UTF-8")
                 .body(aiResponse);
     }
-<<<<<<< HEAD
 
     // Thêm hàm này vào bên trong class GeminiController
     @PostMapping("/save-reply")
@@ -56,6 +55,4 @@ public class GeminiController {
             return ResponseEntity.internalServerError().body(Map.of("success", false, "message", "Lỗi khi cập nhật lỗi lên Firebase!"));
         }
     }
-=======
->>>>>>> 9e90cb906988f055b6f5f46323394001a2dbfaa6
 }
