@@ -1,6 +1,8 @@
 package UCTalent.UCOrm.config;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -16,10 +18,21 @@ public class FirebaseConfig {
     @PostConstruct
     public void initialize() {
         try {
-            InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("serviceAccountKey.json");
+            InputStream serviceAccount = null;
+
+            String firebaseConfigEnv = System.getenv("FIREBASE_CONFIG_JSON");
+
+            if (firebaseConfigEnv != null && !firebaseConfigEnv.trim().isEmpty()) {
+                System.out.println(">> Đang khởi tạo Firebase bằng biến môi trường (Production)...");
+                serviceAccount = new ByteArrayInputStream(firebaseConfigEnv.getBytes(StandardCharsets.UTF_8));
+            } else {
+                // 2. Nếu không có biến môi trường (đang chạy ở local), tìm file serviceAccountKey.json mặc định
+                System.out.println(">> Không tìm thấy biến môi trường. Đang tìm file serviceAccountKey.json ở local...");
+                serviceAccount = getClass().getClassLoader().getResourceAsStream("serviceAccountKey.json");
+            }
 
             if (serviceAccount == null) {
-                System.err.println(">> LỖI: Không tìm thấy file serviceAccountKey.json trong resources!");
+                System.err.println(">> LỖI: Không tìm thấy nguồn cấu hình Firebase hợp lệ (Thiếu cả file lẫn biến môi trường)!");
                 return;
             }
 
