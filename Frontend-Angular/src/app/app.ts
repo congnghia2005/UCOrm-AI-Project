@@ -44,12 +44,24 @@ export class App implements OnInit {
     if (!reviewText) return;
 
     this.isLoading = true;
+    this.aiReplies = null; // Làm sạch dữ liệu cũ khi tạo request mới
 
     this.reviewService.generateAiReply(reviewText).subscribe({
       next: (response) => {
-        this.aiReplies = response; 
+        // Nếu Server trả về String dạng chuỗi JSON thô, thực hiện ép kiểu parse an toàn
+        let parsedResponse = response;
+        if (typeof response === 'string') {
+          try {
+            parsedResponse = JSON.parse(response);
+          } catch (e) {
+            console.error('Lỗi định dạng chuỗi JSON:', e);
+          }
+        }
+
+        this.aiReplies = parsedResponse; 
         
-        this.currentReplyText = response.standard; 
+        // 🔑 ĐÃ SỬA: Gán văn phong mặc định ban đầu là chuyên nghiệp (professional)
+        this.currentReplyText = parsedResponse.professional || ''; 
         this.isLoading = false;
       },
       error: (err) => {
@@ -60,13 +72,13 @@ export class App implements OnInit {
     }); 
   }
 
-  onTabChange(style: 'standard' | 'friendly' | 'escalation'): void {
+  // 🔑 ĐÃ SỬA: Đồng bộ phương thức đổi tab của App Root
+  onTabChange(style: 'professional' | 'friendly' | 'crisis'): void {
     if (this.aiReplies) {
       this.currentReplyText = this.aiReplies[style];
     }
   }
 
-  
   reloadReviewsList(): void {
     this.reviewService.getReviews().subscribe({
       next: (data: Review[]) => {
