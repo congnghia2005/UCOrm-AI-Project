@@ -9,10 +9,11 @@ export interface Review {
   rating: number;
   text: string;
   status: 'pending' | 'resolved';
+  // 🔑 ĐÃ SỬA: Cập nhật các thuộc tính văn phong AI đồng bộ 100% với file Backend Java
   aiResponses?: {
-    standard: string;
+    professional: string; 
     friendly: string;
-    escalation: string;
+    crisis: string;      
   };
   selectedResponse?: string;
 }
@@ -21,7 +22,9 @@ export interface Review {
   providedIn: 'root'
 })
 export class ReviewService {
-  private baseUrl = 'https://ucorm-ai-project-1.onrender.com/api/reviews';
+  
+  // 🔑 ĐÃ SỬA: Trỏ trực tiếp từ localhost sang địa chỉ Production chính thức trên Cloud Render
+  private baseUrl = 'https://backend-springboot-em81.onrender.com/api/reviews';
 
   constructor(private http: HttpClient) {}
 
