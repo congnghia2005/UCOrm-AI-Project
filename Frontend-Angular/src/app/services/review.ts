@@ -24,7 +24,7 @@ export interface Review {
 export class ReviewService {
   
   // 🔑 ĐÃ SỬA: Trỏ trực tiếp từ localhost sang địa chỉ Production chính thức trên Cloud Render
-  private baseUrl = 'http://localhost:8081/api/reviews';
+  private baseUrl = 'https://backend-springboot-em81.onrender.com/api/reviews';
 
   constructor(private http: HttpClient) {}
 
