@@ -7,61 +7,40 @@ import { ReviewResponseComponent } from './components/review-response/review-res
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule,ReviewResponseComponent], 
+  imports: [CommonModule, FormsModule, ReviewResponseComponent], 
   templateUrl: './app.html', 
   styleUrl: './app.css'      
 })
 export class App implements OnInit {
   reviews: Review[] = [];
   selectedReview: Review | null = null; 
-
-  
   isLoading: boolean = false; 
   aiReplies: any = null;
   currentReplyText: string = ''; 
+  inputPlaceId: string = '';
+  isFetching: boolean = false;
 
   constructor(private reviewService: ReviewService) {}
 
   ngOnInit(): void {
-    this.reviewService.getReviews().subscribe({
-      next: (data: Review[]) => { 
-        this.reviews = data;
-        if (data.length > 0) {
-          this.selectedReview = data[0]; 
-        }
-      },
-      error: (err: any) => console.error('Lỗi gọi API Backend:', err)
-    });
+    // 🔑 Mới vào ứng dụng: inputPlaceId trống -> tự động hiển thị màn hình trống trơn
+    this.reloadReviewsList();
   }
 
   selectReview(review: Review): void {
-  this.selectedReview = review;
-  this.aiReplies = null;        
-  this.currentReplyText = '';   
-}
+    this.selectedReview = review;
+    this.aiReplies = null;        
+    this.currentReplyText = '';   
+  }
 
   onGenerateAiReply(reviewText: string): void {
     if (!reviewText) return;
-
     this.isLoading = true;
-    this.aiReplies = null; // Làm sạch dữ liệu cũ khi tạo request mới
 
     this.reviewService.generateAiReply(reviewText).subscribe({
       next: (response) => {
-        // Nếu Server trả về String dạng chuỗi JSON thô, thực hiện ép kiểu parse an toàn
-        let parsedResponse = response;
-        if (typeof response === 'string') {
-          try {
-            parsedResponse = JSON.parse(response);
-          } catch (e) {
-            console.error('Lỗi định dạng chuỗi JSON:', e);
-          }
-        }
-
-        this.aiReplies = parsedResponse; 
-        
-        // 🔑 ĐÃ SỬA: Gán văn phong mặc định ban đầu là chuyên nghiệp (professional)
-        this.currentReplyText = parsedResponse.professional || ''; 
+        this.aiReplies = response; 
+        this.currentReplyText = response.standard; 
         this.isLoading = false;
       },
       error: (err) => {
@@ -72,15 +51,15 @@ export class App implements OnInit {
     }); 
   }
 
-  // 🔑 ĐÃ SỬA: Đồng bộ phương thức đổi tab của App Root
-  onTabChange(style: 'professional' | 'friendly' | 'crisis'): void {
+  onTabChange(style: 'standard' | 'friendly' | 'escalation'): void {
     if (this.aiReplies) {
       this.currentReplyText = this.aiReplies[style];
     }
   }
 
+  // 🔑 ĐÃ SỬA: Luôn lọc danh sách review theo nội dung ô Input hiện tại
   reloadReviewsList(): void {
-    this.reviewService.getReviews().subscribe({
+    this.reviewService.getReviews(this.inputPlaceId.trim()).subscribe({
       next: (data: Review[]) => {
         this.reviews = data;
         
@@ -88,15 +67,18 @@ export class App implements OnInit {
           const updatedReview = data.find(r => r.id === this.selectedReview?.id);
           if (updatedReview) {
             this.selectedReview = updatedReview;
+          } else {
+            this.selectedReview = data.length > 0 ? data[0] : null;
           }
+        } else if (data.length > 0) {
+          this.selectedReview = data[0];
+        } else {
+          this.selectedReview = null;
         }
       },
       error: (err: any) => console.error('Lỗi nạp lại danh sách:', err)
     });
   }
-
-  inputPlaceId: string = '';
-  isFetching: boolean = false;
 
   onFetchReviews(): void {
     if (!this.inputPlaceId.trim()) {
@@ -105,12 +87,16 @@ export class App implements OnInit {
     }
 
     this.isFetching = true;
+    
+    // 🔑 GIẢI PHÁP: Reset sạch giao diện chi tiết và kịch bản AI cũ trước khi nạp ID mới
+    this.selectedReview = null;
+    this.aiReplies = null;
+    this.reviews = [];
 
-    this.reviewService.fetchReviewsByPlaceId(this.inputPlaceId).subscribe({
+    this.reviewService.fetchReviewsByPlaceId(this.inputPlaceId.trim()).subscribe({
       next: (res: any) => {
         if (res.success) {
           alert(res.message);
-          this.inputPlaceId = '';
           this.reloadReviewsList();
         }
         this.isFetching = false;

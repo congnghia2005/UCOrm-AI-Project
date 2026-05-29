@@ -21,7 +21,7 @@ export interface Review {
   providedIn: 'root'
 })
 export class ReviewService {
-  private apiUrl = 'http://localhost:8080/api/reviews'; 
+  private apiUrl = 'https://backend-springboot-em81.onrender.com/api/reviews'
 
   constructor(private http: HttpClient) { }
 

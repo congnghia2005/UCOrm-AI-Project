@@ -24,12 +24,13 @@ export interface Review {
 export class ReviewService {
   
   // 🔑 ĐÃ SỬA: Trỏ trực tiếp từ localhost sang địa chỉ Production chính thức trên Cloud Render
-  private baseUrl = 'https://backend-springboot-em81.onrender.com/api/reviews';
+  private baseUrl = 'http://localhost:8081/api/reviews';
 
   constructor(private http: HttpClient) {}
 
-  getReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(this.baseUrl);  
+  getReviews(placeId?: string): Observable<Review[]> {
+    const url = placeId ? `${this.baseUrl}?placeId=${placeId}` : this.baseUrl;
+    return this.http.get<Review[]>(url);  
   }
 
   generateAiReply(reviewContent: string): Observable<any> {
